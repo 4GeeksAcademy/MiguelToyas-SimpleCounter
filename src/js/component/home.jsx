@@ -1,24 +1,33 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Container, Button, Row, Col } from "react-bootstrap";
 
-//include images into your bundle
-import rigoImage from "../../img/rigo-baby.jpg";
 
 //create your first component
 const Home = () => {
+
+	const [Count, setCount] = useState(0)
+
+	useEffect(() => {
+		const interval = setInterval(() => {
+			setCount(prevCount => prevCount + 1);
+		}, 1000);
+
+		return () => clearInterval(interval);
+
+	}, []);
+	const formatCount = (Count) => {
+		return Count.toString().padStart(6, '0');
+	};
+
 	return (
 		<div className="text-center">
-			<h1 className="text-center mt-5">Hello Rigo!</h1>
-			<p>
-				<img src={rigoImage} />
-			</p>
-			<a href="#" className="btn btn-success">
-				If you see this green button... bootstrap is working...
-			</a>
-			<p>
-				Made by{" "}
-				<a href="http://www.4geeksacademy.com">4Geeks Academy</a>, with
-				love!
-			</p>
+			<Container>
+				<Row className='justify-content-center align-items-center h-100'>
+					<Col xs='auto'>
+						<h1 >{formatCount(Count)}</h1>
+					</Col>
+				</Row>
+			</Container>
 		</div>
 	);
 };
