@@ -40,7 +40,7 @@ export default function Counter() {
     setCount(0);
     setCountingDown(false);
     clearInterval(intervalRef.current);
-    setisRunning(true); // Asegurar que el contador empiece inmediatamente después del reinicio
+    setisRunning(true);
   };
 
   const handleTargetNumberChange = (e) => {
@@ -78,8 +78,8 @@ export default function Counter() {
             <Button variant="warning" onClick={handleReset}>Reiniciar</Button>
           </ButtonGroup>
         </div>
-        <div className="mt-4 d-flex w-50 text-center mx-auto">
-          <label htmlFor="regresiveNumber" className="mx-3 form-label w-75">Ingrese un número para hacer la cuenta regresiva:</label>
+        <div className="mt-4 d-flex container justify-content-center mx-auto">
+          <label htmlFor="regresiveNumber" className="mx-3 form-label">Ingrese un número para hacer la cuenta regresiva:</label>
           <input
             type="text"
             id="regresiveNumber"
