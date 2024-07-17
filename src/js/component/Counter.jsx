@@ -5,7 +5,7 @@ export default function Counter() {
   const [Count, setCount] = useState(0);
   const [isRunning, setisRunning] = useState(true);
   const [targetNumber, setTargetNumber] = useState(null);
-  const [alertNumber, setAlertNumber] = useState(null); // Nuevo estado para el número de alerta
+  const [alertNumber, setAlertNumber] = useState(null); 
   const [countingDown, setCountingDown] = useState(false);
   const intervalRef = useRef(null);
   const [alertTriggered, setAlertTriggered] = useState(false);
@@ -58,7 +58,7 @@ export default function Counter() {
   const handleAlertNumberChange = (e) => {
     const value = parseInt(e.target.value, 10);
     setAlertNumber(isNaN(value) ? null : value);
-    setAlertTriggered(false); // Resetear el estado de la alerta al cambiar el número de alerta
+    setAlertTriggered(false); 
   };
 
   const formatCount = (Count) => {
