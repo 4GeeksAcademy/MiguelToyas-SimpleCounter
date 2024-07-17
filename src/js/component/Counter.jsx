@@ -5,8 +5,10 @@ export default function Counter() {
   const [Count, setCount] = useState(0);
   const [isRunning, setisRunning] = useState(true);
   const [targetNumber, setTargetNumber] = useState(null);
+  const [alertNumber, setAlertNumber] = useState(null); // Nuevo estado para el número de alerta
   const [countingDown, setCountingDown] = useState(false);
   const intervalRef = useRef(null);
+  const [alertTriggered, setAlertTriggered] = useState(false);
 
   useEffect(() => {
     if (isRunning) {
@@ -19,13 +21,17 @@ export default function Counter() {
             setCountingDown(true);
             return prevCount - 1;
           }
+          if (alertNumber !== null && prevCount === alertNumber && !alertTriggered) {
+            alert(`Has alcanzado el número ${alertNumber}`);
+            setAlertTriggered(true);
+          }
           return prevCount + 1;
         });
       }, 1000);
     }
 
     return () => clearInterval(intervalRef.current);
-  }, [isRunning, targetNumber, countingDown]);
+  }, [isRunning, targetNumber, countingDown, alertNumber, alertTriggered]);
 
   const handleStop = () => {
     setisRunning(false);
@@ -39,6 +45,7 @@ export default function Counter() {
   const handleReset = () => {
     setCount(0);
     setCountingDown(false);
+    setAlertTriggered(false);
     clearInterval(intervalRef.current);
     setisRunning(true);
   };
@@ -46,6 +53,12 @@ export default function Counter() {
   const handleTargetNumberChange = (e) => {
     const value = parseInt(e.target.value, 10);
     setTargetNumber(isNaN(value) ? null : value);
+  };
+
+  const handleAlertNumberChange = (e) => {
+    const value = parseInt(e.target.value, 10);
+    setAlertNumber(isNaN(value) ? null : value);
+    setAlertTriggered(false); // Resetear el estado de la alerta al cambiar el número de alerta
   };
 
   const formatCount = (Count) => {
@@ -78,13 +91,20 @@ export default function Counter() {
             <Button variant="warning" onClick={handleReset}>Reiniciar</Button>
           </ButtonGroup>
         </div>
-        <div className="mt-4 d-flex container justify-content-center mx-auto">
-          <label htmlFor="regresiveNumber" className="mx-3 form-label">Ingrese un número para hacer la cuenta regresiva:</label>
+        <div className="mt-4 flex-column">
+          <label htmlFor="regresiveNumber" className="me-4">Ingrese un número para hacer la cuenta regresiva:</label>
           <input
             type="text"
             id="regresiveNumber"
-            className="form-control w-25"
             onChange={handleTargetNumberChange}
+          />
+        </div>
+        <div className="mt-4 flex-column">
+          <label htmlFor="alertNumber" className="me-4">Ingrese un número para generar una alerta:</label>
+          <input
+            type="text"
+            id="alertNumber"
+            onChange={handleAlertNumberChange}
           />
         </div>
       </Container>
